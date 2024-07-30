@@ -4,3 +4,9 @@
 /.cache
 /public/build
 /build
+dockerfile.prod
+docker-compose.yml.prod
+.dockerignore
+.git
+.idea
+README.md
