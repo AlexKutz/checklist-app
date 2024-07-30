@@ -1,0 +1,37 @@
+TODO: Need change before deploy
+
+name: checklist-app
+
+services:
+  production:
+    image: checklist-app
+    build:
+      context: ./
+      dockerfile: ./dockerfile
+    networks:
+      - app
+    environment:
+      - MONGODB_URL=mongodb://localhost:27017
+      - NODE_ENV=production
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+  mongodb:
+    container_name: db
+    image: mongodb/mongodb-community-server:7.0.7-ubi9
+    volumes:
+      - mongo_data:/data
+    networks:
+      - app
+    restart: unless-stopped
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+networks:
+  app:
+
+volumes:
+  mongo_data:
