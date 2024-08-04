@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://localhost:27017/testing"
+}
+
+model User {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  username   String      @unique
+  password   String
+  checklists Checklist[]
+}
+
+model Checklist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  creatorId String   @db.ObjectId
+  createdAt DateTime @default(now())
+  isPublic  Boolean
+  data      Json
+
+  creator User @relation(fields: [creatorId], references: [id])
+}

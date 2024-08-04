@@ -1,48 +1,29 @@
 import type {MetaFunction} from '@remix-run/node'
+import {ChecklistCard} from '~/components/ChecklistCard'
+import {Link} from '@remix-run/react'
 
 export const meta: MetaFunction = () => {
   return [
-    {title: 'New Remix App'},
-    {name: 'description', content: 'Welcome to Remix!'},
+    {title: 'ChecklistApp'},
+    {name: 'description', content: 'Browse checklists or create your own.'},
   ]
 }
 
 export default function Index() {
   return (
-    <div className="p-4 font-sans">
-      <h1 className="text-3xl">Welcome to Remix</h1>
-      <ul className="mt-4 list-disc space-y-2 pl-6">
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/quickstart"
-            rel="noreferrer"
-          >
-            5m Quick Start
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/tutorial"
-            rel="noreferrer"
-          >
-            30m Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/docs"
-            rel="noreferrer"
-          >
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <>
+      <h1 className="mt-16 scroll-m-20 px-4 text-3xl font-semibold tracking-tight">
+        Explore ready-made checklists <br /> or
+        <Link to="#" className="text-sky-700">
+          {' '}
+          <span className="underline">create your own</span>
+        </Link>
+      </h1>
+      <div className="grid gap-10 p-4 pt-14 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+        {[...Array(10)].map((_, index) => (
+          <ChecklistCard key={index} />
+        ))}
+      </div>
+    </>
   )
 }

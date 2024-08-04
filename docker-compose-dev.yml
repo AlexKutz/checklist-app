@@ -1,0 +1,54 @@
+name: checklist-app
+
+services:
+  development:
+    container_name: checklist-app
+    image: checklist-app
+    build:
+      context: ./
+      dockerfile: ./dockerfile
+      target: dev
+    networks:
+      - dev
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URL=mongodb://localhost:27017/testing
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    volumes:
+      - ".:/app"
+      - node_modules:/app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
+  mongodb:
+    container_name: db
+    image: mongodb/mongodb-community-server:7.0.7-ubi9
+    environment:
+      MONGO_INITDB_DATABASE: testing
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo:/data
+    networks:
+      - dev
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    logging:
+      driver: none
+
+networks:
+  dev:
+
+volumes:
+  mongo:
+  node_modules:
